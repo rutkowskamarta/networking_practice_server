@@ -1,0 +1,35 @@
+[Trace]   DarkRiftServer        System Details:
+                                	OS: Microsoft Windows NT 6.2.9200.0
+                                	CLS Version: 4.0.30319.42000
+                                	DarkRift: 2.10.1.0 - Free
+[Trace]   PluginFactory         Created plugin 'ServerPluginManager'.
+[Trace]   PluginManager         Plugin 'ServerPluginManager' has requested that DarkRift operates in thread safe mode.
+[Trace]   DarkRiftServer        Switched into thread safe mode. All events will be invoked from the main thread. This may affect server performance.
+[Info]    PluginManager         Installed plugin ServerPluginManager version 0.0.1
+[Trace]   PluginFactory         Created plugin 'BichannelListener'.
+[Trace]   HttpHealthCheck       HTTP health check started at 'http://localhost:10666/health'
+[Trace]   DarkRiftServer        Binding listeners to ClientManager as server is externally visible.
+[Trace]   DefaultNetworkListener Starting bichannel listener.
+[Info]    DefaultNetworkListener Server mounted, listening on port 4296.
+[Trace]   DefaultNetworkListener Accepted TCP connection from 192.168.50.89:59709.
+[Trace]   DefaultNetworkListener Accepted UDP connection from 192.168.50.89:57487.
+[Info]    ClientManager         New client [0] connected [192.168.50.89:59709|192.168.50.89:57487].
+[Info]    ServerPluginManager   client connected 0
+[Info]    ServerPluginManager   client disconnected 0
+[Info]    ClientManager         Client [0] disconnected.
+[Trace]   DefaultNetworkListener Accepted TCP connection from 192.168.50.89:51916.
+[Trace]   DefaultNetworkListener Accepted UDP connection from 192.168.50.89:52499.
+[Info]    ClientManager         New client [1] connected [192.168.50.89:51916|192.168.50.89:52499].
+[Info]    ServerPluginManager   client connected 1
+[Info]    ServerPluginManager   client disconnected 1
+[Info]    ClientManager         Client [1] disconnected.
+[Trace]   DefaultNetworkListener Accepted TCP connection from 192.168.50.89:51969.
+[Trace]   DefaultNetworkListener Accepted UDP connection from 192.168.50.89:54629.
+[Info]    ClientManager         New client [2] connected [192.168.50.89:51969|192.168.50.89:54629].
+[Info]    ServerPluginManager   client connected 2
+[Info]    ServerPluginManager   client disconnected 2
+[Info]    ClientManager         Client [2] disconnected.
+[Trace]   DefaultNetworkListener Accepted TCP connection from 192.168.50.89:51992.
+[Trace]   DefaultNetworkListener Accepted UDP connection from 192.168.50.89:61830.
+[Info]    ClientManager         New client [3] connected [192.168.50.89:51992|192.168.50.89:61830].
+[Info]    ServerPluginManager   client connected 3
