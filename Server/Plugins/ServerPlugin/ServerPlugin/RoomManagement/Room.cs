@@ -1,33 +1,51 @@
-﻿using ServerPlugin.PlayerManagement;
+﻿using DarkRift;
+using DarkRift.Server;
+using ServerPlugin.PlayerManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ServerPlugin.RoomManagement
 {
-	class Room
+	public class Room
 	{
 		private const int RoomIdLenght = 6;
-		private Dictionary<string, Player> players;
+		private Dictionary<IClient, Player> players;
 
 		public string ID { get; private set; }
 
 		public Room()
 		{
 			ID = GenerateRandomId();
-			players = new Dictionary<string, Player>();
+			players = new Dictionary<IClient, Player>();
 		}
 
-		public void JoinRoom(Player player)
+		public void JoinRoom(IClient client, Player player)
 		{
-
+			players.Add(client, player);
+			NotifyOtherPlayers();
 		}
 
-		public void LeaveRoom(Player player)
+		public void LeaveRoom(IClient client)
 		{
+			players.Remove(client);
+		}
 
+		private void NotifyOtherPlayers()
+		{
+			using (DarkRiftWriter playerWriter = DarkRiftWriter.Create())
+			{
+				foreach (Player player in players.Values)
+				{
+					playerWriter.Write(player.PlayerId);
+					playerWriter.Write(player.PlayerName);
+					playerWriter.Write(player.PlayerPicture);
+				}
+
+				//using (Message playerMessage = Message.Create(0, playerWriter))
+				//	e.Client.SendMessage(playerMessage, SendMode.Reliable);
+			}
 		}
 
 		private string GenerateRandomId()

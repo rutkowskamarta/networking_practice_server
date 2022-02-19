@@ -48,10 +48,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PlayerManagement\Player.cs" />
+    <Compile Include="PlayerManagement\PlayerManager.cs" />
     <Compile Include="RoomManagement\Room.cs" />
     <Compile Include="RoomManagement\RoomManager.cs" />
     <Compile Include="ServerPluginManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tags\Tags.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
