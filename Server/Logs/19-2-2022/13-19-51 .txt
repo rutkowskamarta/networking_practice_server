@@ -23,3 +23,37 @@
 [Info]    ServerPluginManager   Player of playerID0 and name Name logged in
 [Info]    ServerPluginManager   client disconnected 0
 [Info]    ClientManager         Client [0] disconnected.
+[Trace]   DefaultNetworkListener Accepted TCP connection from 192.168.50.89:52457.
+[Trace]   DefaultNetworkListener Accepted UDP connection from 192.168.50.89:56076.
+[Info]    ClientManager         New client [1] connected [192.168.50.89:52457|192.168.50.89:56076].
+[Info]    ServerPluginManager   client connected 1
+[Info]    ServerPluginManager   Message with tag '0' and 20 bytes of data.
+[Info]    ServerPluginManager   Player of playerID0 and name Name logged in
+[Info]    ServerPluginManager   client disconnected 1
+[Info]    ClientManager         Client [1] disconnected.
+[Trace]   DefaultNetworkListener Accepted TCP connection from 192.168.50.89:52476.
+[Trace]   DefaultNetworkListener Accepted UDP connection from 192.168.50.89:59513.
+[Info]    ClientManager         New client [2] connected [192.168.50.89:52476|192.168.50.89:59513].
+[Info]    ServerPluginManager   client connected 2
+[Info]    ServerPluginManager   Message with tag '0' and 20 bytes of data.
+[Info]    ServerPluginManager   Player of playerID0 and name Name logged in
+[Info]    ServerPluginManager   client disconnected 2
+[Info]    ClientManager         Client [2] disconnected.
+[Trace]   DefaultNetworkListener Accepted TCP connection from 192.168.50.89:52519.
+[Trace]   DefaultNetworkListener Accepted UDP connection from 192.168.50.89:56592.
+[Info]    ClientManager         New client [3] connected [192.168.50.89:52519|192.168.50.89:56592].
+[Info]    ServerPluginManager   client connected 3
+[Info]    ServerPluginManager   Message with tag '0' and 20 bytes of data.
+[Info]    ServerPluginManager   Player of playerID0 and name Name logged in
+[Info]    ServerPluginManager   Message with tag '0' and 22 bytes of data.
+[Info]    ServerPluginManager   Player of playerID0 and name Marta logged in
+[Info]    ServerPluginManager   client disconnected 3
+[Info]    ClientManager         Client [3] disconnected.
+[Trace]   DefaultNetworkListener Accepted TCP connection from 192.168.50.89:52529.
+[Trace]   DefaultNetworkListener Accepted UDP connection from 192.168.50.89:55636.
+[Info]    ClientManager         New client [4] connected [192.168.50.89:52529|192.168.50.89:55636].
+[Info]    ServerPluginManager   client connected 4
+[Info]    ServerPluginManager   Message with tag '0' and 22 bytes of data.
+[Info]    ServerPluginManager   Player of playerID0 and name Marta logged in
+[Info]    ServerPluginManager   client disconnected 4
+[Info]    ClientManager         Client [4] disconnected.

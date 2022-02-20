@@ -30,11 +30,11 @@ namespace ServerPlugin.PlayerManagement
 
 				int playerId = reader.ReadInt32();
 				string playerName = reader.ReadString();
-				int playerPicture = reader.ReadInt32();
+				var playerVisualisation = reader.ReadSerializable<PlayerVisualisation>();
 				
-				Logger.Log($"Player of playerID{playerId} and name {playerName} logged in".ToString(), LogType.Info);
+				Logger.Log($"Player of playerID {playerId} and name {playerName} logged in with visualisation of {playerVisualisation.PlayerVisualisationBody} ".ToString(), LogType.Info);
 
-				player.SetData(playerId, playerName, playerPicture);
+				player.SetData(playerId, playerName, playerVisualisation);
 			}
 		}
 

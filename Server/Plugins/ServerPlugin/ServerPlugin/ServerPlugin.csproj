@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="PlayerManagement\Player.cs" />
     <Compile Include="PlayerManagement\PlayerManager.cs" />
+    <Compile Include="PlayerManagement\PlayerVisualisation.cs" />
     <Compile Include="RoomManagement\Room.cs" />
     <Compile Include="RoomManagement\RoomManager.cs" />
     <Compile Include="ServerPluginManager.cs" />
