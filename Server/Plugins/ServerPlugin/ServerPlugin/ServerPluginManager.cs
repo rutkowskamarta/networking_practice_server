@@ -10,7 +10,7 @@ namespace ServerPlugin
 	{
 		public override bool ThreadSafe => false;
 
-		public override Version Version => new Version(0, 0, 1);
+		public override Version Version => PluginVersion.Version;
 
 		private PlayerManager playerManager; 
 		private RoomManager roomManager; 
@@ -18,7 +18,7 @@ namespace ServerPlugin
 		public ServerPluginManager(PluginLoadData pluginLoadData) : base(pluginLoadData)
 		{
 			playerManager = new PlayerManager(pluginLoadData);
-			roomManager = new RoomManager();
+			roomManager = new RoomManager(pluginLoadData);
 
 			ClientManager.ClientConnected += OnClientConnected;
 			ClientManager.ClientDisconnected += OnClientDisonnected;
@@ -43,6 +43,10 @@ namespace ServerPlugin
 			if (eventMessage.Tag == Tags.Tags.PlayerData)
 			{
 				playerManager.SetupPlayerData(eventMessage);
+			}
+			else if(eventMessage.Tag == Tags.Tags.CreateRoom)
+			{
+				roomManager.AddRoom();
 			}
 		}
 	}

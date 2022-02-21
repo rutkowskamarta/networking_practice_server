@@ -3,7 +3,6 @@ using DarkRift.Server;
 using ServerPlugin.PlayerManagement;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace ServerPlugin.RoomManagement
@@ -27,6 +26,20 @@ namespace ServerPlugin.RoomManagement
 			NotifyOtherPlayers();
 		}
 
+		public void SendRoomCreationNotification()
+		{
+			using (DarkRiftWriter playerWriter = DarkRiftWriter.Create())
+			{
+				playerWriter.Write(ID);
+
+				foreach (var kvp in players)
+				{
+					using (Message playerMessage = Message.Create(0, playerWriter))
+						kvp.Key.SendMessage(playerMessage, SendMode.Reliable);
+				}
+			}
+		}
+
 		public void LeaveRoom(IClient client)
 		{
 			players.Remove(client);
@@ -40,7 +53,6 @@ namespace ServerPlugin.RoomManagement
 				{
 					playerWriter.Write(player.PlayerId);
 					playerWriter.Write(player.PlayerName);
-					playerWriter.Write(player.PlayerPicture);
 				}
 
 				//using (Message playerMessage = Message.Create(0, playerWriter))

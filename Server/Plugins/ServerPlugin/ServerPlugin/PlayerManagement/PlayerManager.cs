@@ -10,7 +10,7 @@ namespace ServerPlugin.PlayerManagement
 		Dictionary<IClient, Player> players;
 
 		public override bool ThreadSafe => false;
-		public override Version Version => new Version(0, 0, 1);
+		public override Version Version => PluginVersion.Version;
 
 		public PlayerManager(PluginLoadData pluginLoadData) : base(pluginLoadData)
 		{
@@ -36,6 +36,11 @@ namespace ServerPlugin.PlayerManagement
 
 				player.SetData(playerId, playerName, playerVisualisation);
 			}
+		}
+
+		public Player GetPlayer(IClient client)
+		{
+			return players[client];
 		}
 
 	}
