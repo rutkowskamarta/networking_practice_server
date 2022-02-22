@@ -34,8 +34,10 @@ namespace ServerPlugin.RoomManagement
 
 				foreach (var kvp in players)
 				{
-					using (Message playerMessage = Message.Create(0, playerWriter))
+					using (Message playerMessage = Message.Create(Tags.Tags.CreateRoomResponseSucess, playerWriter))
+					{
 						kvp.Key.SendMessage(playerMessage, SendMode.Reliable);
+					}
 				}
 			}
 		}

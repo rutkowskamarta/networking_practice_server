@@ -1,7 +1,6 @@
 ﻿using DarkRift.Server;
 using ServerPlugin.PlayerManagement;
 using ServerPlugin.RoomManagement;
-using ServerPlugin.Tags;
 using System;
 
 namespace ServerPlugin
@@ -19,6 +18,7 @@ namespace ServerPlugin
 		{
 			playerManager = new PlayerManager(pluginLoadData);
 			roomManager = new RoomManager(pluginLoadData);
+			roomManager.InjectDependecies(playerManager);
 
 			ClientManager.ClientConnected += OnClientConnected;
 			ClientManager.ClientDisconnected += OnClientDisonnected;
@@ -40,13 +40,14 @@ namespace ServerPlugin
 		{
 			Logger.Log(eventMessage.GetMessage().ToString(), DarkRift.LogType.Info);
 
-			if (eventMessage.Tag == Tags.Tags.PlayerData)
+			if (eventMessage.Tag == Tags.Tags.PlayerDataRequest)
 			{
 				playerManager.SetupPlayerData(eventMessage);
 			}
-			else if(eventMessage.Tag == Tags.Tags.CreateRoom)
+			else if(eventMessage.Tag == Tags.Tags.CreateRoomRequest)
 			{
-				roomManager.AddRoom();
+				Logger.Log("CreateRoomRequest", DarkRift.LogType.Info);
+				roomManager.CreateRoom(sender, eventMessage);
 			}
 		}
 	}

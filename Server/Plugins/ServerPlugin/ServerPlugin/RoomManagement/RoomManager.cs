@@ -1,4 +1,5 @@
-﻿using DarkRift.Server;
+﻿using DarkRift;
+using DarkRift.Server;
 using ServerPlugin.PlayerManagement;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,13 @@ namespace ServerPlugin.RoomManagement
 		private Dictionary<string, Room> createdRooms;
 		private PlayerManager playerManager;
 
-		public RoomManager(PluginLoadData pluginLoadData, PlayerManager playerManager) : base(pluginLoadData)
+		public RoomManager(PluginLoadData pluginLoadData) : base(pluginLoadData)
 		{
 			createdRooms = new Dictionary<string, Room>();
+		}
+
+		public void InjectDependecies(PlayerManager playerManager)
+		{
 			this.playerManager = playerManager;
 		}
 
@@ -31,6 +36,7 @@ namespace ServerPlugin.RoomManagement
 		private void AddRoom(Room room)
 		{
 			createdRooms.Add(room.ID, room);
+			Logger.Log($"Room of if {room.ID} added.".ToString(), LogType.Info);
 		}
 
 		public void RemoveRoom(Room room)
