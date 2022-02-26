@@ -3,6 +3,7 @@ using DarkRift.Server;
 using ServerPlugin.PlayerManagement;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ServerPlugin.RoomManagement
@@ -23,7 +24,7 @@ namespace ServerPlugin.RoomManagement
 		public void JoinRoom(IClient client, Player player)
 		{
 			players.Add(client, player);
-			NotifyOtherPlayers();
+			UpdateRoomStateNotification();
 		}
 
 		public void SendRoomCreationNotification()
@@ -45,20 +46,31 @@ namespace ServerPlugin.RoomManagement
 		public void LeaveRoom(IClient client)
 		{
 			players.Remove(client);
+			UpdateRoomStateNotification();
 		}
 
-		private void NotifyOtherPlayers()
+		public bool IsEmpty()
+		{
+			return players.Count == 0;
+		}
+
+		private void UpdateRoomStateNotification()
 		{
 			using (DarkRiftWriter playerWriter = DarkRiftWriter.Create())
 			{
-				foreach (Player player in players.Values)
+				foreach (var kvp in players)
 				{
-					playerWriter.Write(player.PlayerId);
-					playerWriter.Write(player.PlayerName);
+					if(kvp.Value == null)
+					{
+						continue;
+					}
+					playerWriter.Write(ID);
+					playerWriter.Write(players.Values.ToArray());
+					using (Message playerMessage = Message.Create(Tags.Tags.UpdateRoomState, playerWriter))
+					{
+						kvp.Key.SendMessage(playerMessage, SendMode.Reliable);
+					}
 				}
-
-				//using (Message playerMessage = Message.Create(0, playerWriter))
-				//	e.Client.SendMessage(playerMessage, SendMode.Reliable);
 			}
 		}
 
@@ -69,6 +81,7 @@ namespace ServerPlugin.RoomManagement
 
 			char letter;
 
+			//add check if this ID already exists
 			for (int i = 0; i < RoomIdLenght; i++)
 			{
 				double asciiCode = random.NextDouble();

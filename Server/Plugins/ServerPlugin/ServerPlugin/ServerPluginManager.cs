@@ -26,14 +26,14 @@ namespace ServerPlugin
 
 		private void OnClientConnected(object sender, ClientConnectedEventArgs e)
 		{
-			Logger.Log("client connected " + e.Client.ID, DarkRift.LogType.Info);
+			Logger.Log("Client connected " + e.Client.ID, DarkRift.LogType.Info);
 			playerManager.ConnectPlayer(sender, e);
 			e.Client.MessageReceived += Client_MessageReceived;
 		}
 
 		private void OnClientDisonnected(object sender, ClientDisconnectedEventArgs e)
 		{
-			Logger.Log("client disconnected " + e.Client.ID, DarkRift.LogType.Info);
+			Logger.Log("Client disconnected " + e.Client.ID, DarkRift.LogType.Info);
 		}
 
 		private void Client_MessageReceived(object sender, MessageReceivedEventArgs eventMessage)
@@ -46,8 +46,11 @@ namespace ServerPlugin
 			}
 			else if(eventMessage.Tag == Tags.Tags.CreateRoomRequest)
 			{
-				Logger.Log("CreateRoomRequest", DarkRift.LogType.Info);
 				roomManager.CreateRoom(sender, eventMessage);
+			}
+			else if(eventMessage.Tag == Tags.Tags.JoinRoomRequest)
+			{
+				roomManager.JoinRoom(sender, eventMessage);
 			}
 		}
 	}

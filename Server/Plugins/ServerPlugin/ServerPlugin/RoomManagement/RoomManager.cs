@@ -31,12 +31,69 @@ namespace ServerPlugin.RoomManagement
 			room.JoinRoom(client, playerManager.GetPlayer(client));
 			room.SendRoomCreationNotification();
 			AddRoom(room);
+			Logger.Log($"Room of if {room.ID} created.".ToString(), LogType.Info);
+		}
+
+		public void JoinRoom(object sender, MessageReceivedEventArgs messageEvent)
+		{
+			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
+			{
+				string roomID = reader.ReadString();
+				var room = GetRoomOfID(roomID);
+				if (room == null)
+				{
+					SendRoomNotExistMessage(messageEvent.Client);
+				}
+				else
+				{
+					JoinRoom(room, messageEvent.Client);
+				}
+			}
+		}
+
+		public void LeaveRoom(object sender, MessageReceivedEventArgs messageEvent)
+		{
+			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
+			{
+				string roomID = reader.ReadString();
+				var room = GetRoomOfID(roomID);
+				var client = messageEvent.Client;
+				room.LeaveRoom(client);
+				if (room.IsEmpty())
+				{
+					RemoveRoom(room);
+				}
+				Logger.Log($"Player left room of id {room.ID}".ToString(), LogType.Info);
+			}
+		}
+
+		private void JoinRoom(Room room, IClient client)
+		{
+			room.JoinRoom(client, playerManager.GetPlayer(client));
+			using (DarkRiftWriter playerWriter = DarkRiftWriter.Create())
+			{
+				using (Message playerMessage = Message.Create(Tags.Tags.JoinRoomResponseSucess, playerWriter))
+				{
+					client.SendMessage(playerMessage, SendMode.Reliable);
+				}
+			}
+			Logger.Log($"Player joined room of id {room.ID}".ToString(), LogType.Info);
+		}
+
+		private void SendRoomNotExistMessage(IClient client)
+		{
+			using (DarkRiftWriter playerWriter = DarkRiftWriter.Create())
+			{
+				using (Message playerMessage = Message.Create(Tags.Tags.JoinRoomResponseFail, playerWriter))
+				{
+					client.SendMessage(playerMessage, SendMode.Reliable);
+				}
+			}
 		}
 
 		private void AddRoom(Room room)
 		{
 			createdRooms.Add(room.ID, room);
-			Logger.Log($"Room of if {room.ID} added.".ToString(), LogType.Info);
 		}
 
 		public void RemoveRoom(Room room)
@@ -44,9 +101,9 @@ namespace ServerPlugin.RoomManagement
 			createdRooms.Add(room.ID, room);
 		}
 
-		public void GetRoomOfID(string ID)
+		public Room GetRoomOfID(string Id)
 		{
-
+			return createdRooms[Id];
 		}
 	}
 }

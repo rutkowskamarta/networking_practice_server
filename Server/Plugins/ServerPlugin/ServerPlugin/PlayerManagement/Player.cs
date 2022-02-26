@@ -1,6 +1,8 @@
-﻿namespace ServerPlugin.PlayerManagement
+﻿using DarkRift;
+
+namespace ServerPlugin.PlayerManagement
 {
-	public class Player
+	public class Player : IDarkRiftSerializable
 	{
 		public int PlayerId { get; private set; }
 		public string PlayerName { get; private set; }
@@ -23,6 +25,20 @@
 			this.PlayerId = playerId;
 			this.PlayerName = playerName;
 			this.PlayerVisualisation = playerVisualisation;
+		}
+
+		public void Deserialize(DeserializeEvent deserializeEvent)
+		{
+			PlayerId = deserializeEvent.Reader.ReadInt32();
+			PlayerName = deserializeEvent.Reader.ReadString();
+			PlayerVisualisation = deserializeEvent.Reader.ReadSerializable<PlayerVisualisation>();
+		}
+
+		public void Serialize(SerializeEvent serializeEvent)
+		{
+			serializeEvent.Writer.Write(PlayerId);
+			serializeEvent.Writer.Write(PlayerName);
+			serializeEvent.Writer.Write(PlayerVisualisation);
 		}
 	}
 }
