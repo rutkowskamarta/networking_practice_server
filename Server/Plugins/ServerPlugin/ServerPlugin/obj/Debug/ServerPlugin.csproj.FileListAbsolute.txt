@@ -11,3 +11,15 @@ E:\MyProjects\DarkRiftNetworking\networking_practice_server\Server\Plugins\Serve
 E:\MyProjects\DarkRiftNetworking\networking_practice_server\Server\Plugins\ServerPlugin\ServerPlugin\obj\Debug\ServerPlugin.csproj.CopyComplete
 E:\MyProjects\DarkRiftNetworking\networking_practice_server\Server\Plugins\ServerPlugin\ServerPlugin\obj\Debug\ServerPlugin.dll
 E:\MyProjects\DarkRiftNetworking\networking_practice_server\Server\Plugins\ServerPlugin\ServerPlugin\obj\Debug\ServerPlugin.pdb
+D:\netw_practice_server\networking_practice_server\Server\Plugins\ServerPlugin\ServerPlugin\bin\Debug\ServerPlugin.dll
+D:\netw_practice_server\networking_practice_server\Server\Plugins\ServerPlugin\ServerPlugin\bin\Debug\ServerPlugin.pdb
+D:\netw_practice_server\networking_practice_server\Server\Plugins\ServerPlugin\ServerPlugin\bin\Debug\DarkRift.dll
+D:\netw_practice_server\networking_practice_server\Server\Plugins\ServerPlugin\ServerPlugin\bin\Debug\DarkRift.Server.dll
+D:\netw_practice_server\networking_practice_server\Server\Plugins\ServerPlugin\ServerPlugin\bin\Debug\DarkRift.pdb
+D:\netw_practice_server\networking_practice_server\Server\Plugins\ServerPlugin\ServerPlugin\bin\Debug\DarkRift.xml
+D:\netw_practice_server\networking_practice_server\Server\Plugins\ServerPlugin\ServerPlugin\bin\Debug\DarkRift.Server.pdb
+D:\netw_practice_server\networking_practice_server\Server\Plugins\ServerPlugin\ServerPlugin\bin\Debug\DarkRift.Server.xml
+D:\netw_practice_server\networking_practice_server\Server\Plugins\ServerPlugin\ServerPlugin\obj\Debug\ServerPlugin.csproj.AssemblyReference.cache
+D:\netw_practice_server\networking_practice_server\Server\Plugins\ServerPlugin\ServerPlugin\obj\Debug\ServerPlugin.csproj.CoreCompileInputs.cache
+D:\netw_practice_server\networking_practice_server\Server\Plugins\ServerPlugin\ServerPlugin\obj\Debug\ServerPlugin.dll
+D:\netw_practice_server\networking_practice_server\Server\Plugins\ServerPlugin\ServerPlugin\obj\Debug\ServerPlugin.pdb

@@ -32,6 +32,7 @@ namespace ServerPlugin.RoomManagement
 			using (DarkRiftWriter playerWriter = DarkRiftWriter.Create())
 			{
 				playerWriter.Write(ID);
+				playerWriter.Write(players.Values.ToArray());
 
 				foreach (var kvp in players)
 				{
@@ -60,12 +61,8 @@ namespace ServerPlugin.RoomManagement
 			{
 				foreach (var kvp in players)
 				{
-					if(kvp.Value == null)
-					{
-						continue;
-					}
 					playerWriter.Write(ID);
-					playerWriter.Write(players.Values.ToArray());
+					playerWriter.Write(players.Select(item => item.Value).ToArray());
 					using (Message playerMessage = Message.Create(Tags.Tags.UpdateRoomState, playerWriter))
 					{
 						kvp.Key.SendMessage(playerMessage, SendMode.Reliable);
@@ -91,5 +88,6 @@ namespace ServerPlugin.RoomManagement
 			}
 			return stringBuilder.ToString();
 		}
+
 	}
 }
