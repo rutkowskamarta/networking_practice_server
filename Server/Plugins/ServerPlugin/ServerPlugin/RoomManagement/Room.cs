@@ -62,7 +62,7 @@ namespace ServerPlugin.RoomManagement
 				foreach (var kvp in players)
 				{
 					playerWriter.Write(ID);
-					playerWriter.Write(players.Select(item => item.Value).ToArray());
+					playerWriter.Write(players.Values.ToArray());
 					using (Message playerMessage = Message.Create(Tags.Tags.UpdateRoomState, playerWriter))
 					{
 						kvp.Key.SendMessage(playerMessage, SendMode.Reliable);
