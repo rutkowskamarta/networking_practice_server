@@ -52,6 +52,10 @@ namespace ServerPlugin
 			{
 				roomManager.JoinRoom(sender, eventMessage);
 			}
+			else if(eventMessage.Tag == Tags.Tags.LeaveRoomRequest)
+			{
+				roomManager.LeaveRoom(sender, eventMessage);
+			}
 		}
 	}
 }

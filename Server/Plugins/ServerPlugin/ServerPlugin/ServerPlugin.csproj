@@ -47,6 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameManagement\GameManager.cs" />
+    <Compile Include="GameManagement\GameState.cs" />
+    <Compile Include="GameManagement\RandomLetterGenarator.cs" />
     <Compile Include="PlayerManagement\Player.cs" />
     <Compile Include="PlayerManagement\PlayerManager.cs" />
     <Compile Include="PlayerManagement\PlayerVisualisation.cs" />

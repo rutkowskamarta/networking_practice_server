@@ -3,11 +3,13 @@ using DarkRift.Server;
 using ServerPlugin.PlayerManagement;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace ServerPlugin.RoomManagement
 {
 	public class RoomManager : Plugin
 	{
+		private const int RoomIdLenght = 6;
 		public override bool ThreadSafe => false;
 		public override Version Version => PluginVersion.Version;
 
@@ -26,7 +28,7 @@ namespace ServerPlugin.RoomManagement
 
 		public void CreateRoom(object sender, MessageReceivedEventArgs messageEvent)
 		{
-			var room = new Room();
+			var room = new Room(GenerateUniqueRandomID());
 			var client = messageEvent.Client;
 			room.JoinRoom(client, playerManager.GetPlayer(client));
 			room.SendRoomCreationNotification();
@@ -39,13 +41,13 @@ namespace ServerPlugin.RoomManagement
 			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
 			{
 				string roomID = reader.ReadString();
-				var room = GetRoomOfID(roomID);
-				if (room == null)
+				if (!createdRooms.ContainsKey(roomID))
 				{
 					SendRoomNotExistMessage(messageEvent.Client);
 				}
 				else
 				{
+					var room = GetRoomOfID(roomID);
 					JoinRoom(room, messageEvent.Client);
 				}
 			}
@@ -104,6 +106,32 @@ namespace ServerPlugin.RoomManagement
 		public Room GetRoomOfID(string Id)
 		{
 			return createdRooms[Id];
+		}
+
+		private string GenerateUniqueRandomID()
+		{
+			string id = GenerateRandomId();
+			while(createdRooms.ContainsKey(id))
+			{
+				id = GenerateRandomId();
+			}
+			return id;
+		}
+
+		private string GenerateRandomId()
+		{
+			StringBuilder stringBuilder = new StringBuilder();
+			Random random = new Random();
+
+			char letter;
+			for (int i = 0; i < RoomIdLenght; i++)
+			{
+				double asciiCode = random.NextDouble();
+				int shift = Convert.ToInt32(Math.Floor(25 * asciiCode));
+				letter = Convert.ToChar(shift + 65);
+				stringBuilder.Append(letter);
+			}
+			return stringBuilder.ToString();
 		}
 	}
 }
