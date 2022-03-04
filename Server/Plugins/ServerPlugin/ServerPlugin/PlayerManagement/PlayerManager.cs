@@ -7,10 +7,10 @@ namespace ServerPlugin.PlayerManagement
 {
 	public class PlayerManager : Plugin
 	{
-		Dictionary<IClient, Player> players;
-
 		public override bool ThreadSafe => false;
 		public override Version Version => PluginVersion.Version;
+
+        private readonly Dictionary<IClient, Player> players;
 
 		public PlayerManager(PluginLoadData pluginLoadData) : base(pluginLoadData)
 		{

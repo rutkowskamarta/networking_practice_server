@@ -13,7 +13,7 @@ namespace ServerPlugin.RoomManagement
 		public override bool ThreadSafe => false;
 		public override Version Version => PluginVersion.Version;
 
-		private Dictionary<string, Room> createdRooms;
+		private readonly Dictionary<string, Room> createdRooms;
 		private PlayerManager playerManager;
 
 		public RoomManager(PluginLoadData pluginLoadData) : base(pluginLoadData)
@@ -26,7 +26,7 @@ namespace ServerPlugin.RoomManagement
 			this.playerManager = playerManager;
 		}
 
-		public void CreateRoom(object sender, MessageReceivedEventArgs messageEvent)
+		public void CreateRoom(MessageReceivedEventArgs messageEvent)
 		{
 			var room = new Room(GenerateUniqueRandomID());
 			var client = messageEvent.Client;
@@ -36,7 +36,7 @@ namespace ServerPlugin.RoomManagement
 			Logger.Log($"Room of if {room.ID} created.".ToString(), LogType.Info);
 		}
 
-		public void JoinRoom(object sender, MessageReceivedEventArgs messageEvent)
+		public void JoinRoom(MessageReceivedEventArgs messageEvent)
 		{
 			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
 			{
@@ -53,7 +53,7 @@ namespace ServerPlugin.RoomManagement
 			}
 		}
 
-		public void LeaveRoom(object sender, MessageReceivedEventArgs messageEvent)
+		public void LeaveRoom(MessageReceivedEventArgs messageEvent)
 		{
 			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
 			{
@@ -72,23 +72,22 @@ namespace ServerPlugin.RoomManagement
 		private void JoinRoom(Room room, IClient client)
 		{
 			room.JoinRoom(client, playerManager.GetPlayer(client));
-			using (DarkRiftWriter playerWriter = DarkRiftWriter.Create())
-			{
-				using (Message playerMessage = Message.Create(Tags.Tags.JoinRoomResponseSucess, playerWriter))
-				{
-					client.SendMessage(playerMessage, SendMode.Reliable);
-				}
-			}
+			SendMessageToAllPlayers(client, Tags.Tags.JoinRoomResponseSucess);
 			Logger.Log($"Player joined room of id {room.ID}".ToString(), LogType.Info);
 		}
 
 		private void SendRoomNotExistMessage(IClient client)
 		{
-			using (DarkRiftWriter playerWriter = DarkRiftWriter.Create())
+			SendMessageToAllPlayers(client, Tags.Tags.JoinRoomResponseFail);
+		}
+
+		private void SendMessageToAllPlayers(IClient client, ushort tag)
+		{
+			using (DarkRiftWriter writer = DarkRiftWriter.Create())
 			{
-				using (Message playerMessage = Message.Create(Tags.Tags.JoinRoomResponseFail, playerWriter))
+				using (Message message = Message.Create(tag, writer))
 				{
-					client.SendMessage(playerMessage, SendMode.Reliable);
+					client.SendMessage(message, SendMode.Reliable);
 				}
 			}
 		}
@@ -103,9 +102,9 @@ namespace ServerPlugin.RoomManagement
 			createdRooms.Add(room.ID, room);
 		}
 
-		public Room GetRoomOfID(string Id)
+		public Room GetRoomOfID(string id)
 		{
-			return createdRooms[Id];
+			return createdRooms[id];
 		}
 
 		private string GenerateUniqueRandomID()

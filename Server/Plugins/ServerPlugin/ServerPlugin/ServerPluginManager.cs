@@ -1,4 +1,5 @@
 ﻿using DarkRift.Server;
+using ServerPlugin.GameManagement;
 using ServerPlugin.PlayerManagement;
 using ServerPlugin.RoomManagement;
 using System;
@@ -12,13 +13,15 @@ namespace ServerPlugin
 		public override Version Version => PluginVersion.Version;
 
 		private PlayerManager playerManager; 
-		private RoomManager roomManager; 
+		private RoomManager roomManager;
+		private GameManager gameManager;
 
 		public ServerPluginManager(PluginLoadData pluginLoadData) : base(pluginLoadData)
 		{
 			playerManager = new PlayerManager(pluginLoadData);
 			roomManager = new RoomManager(pluginLoadData);
 			roomManager.InjectDependecies(playerManager);
+			gameManager = new GameManager(pluginLoadData);
 
 			ClientManager.ClientConnected += OnClientConnected;
 			ClientManager.ClientDisconnected += OnClientDisonnected;
@@ -46,15 +49,19 @@ namespace ServerPlugin
 			}
 			else if(eventMessage.Tag == Tags.Tags.CreateRoomRequest)
 			{
-				roomManager.CreateRoom(sender, eventMessage);
+				roomManager.CreateRoom(eventMessage);
 			}
 			else if(eventMessage.Tag == Tags.Tags.JoinRoomRequest)
 			{
-				roomManager.JoinRoom(sender, eventMessage);
+				roomManager.JoinRoom(eventMessage);
 			}
 			else if(eventMessage.Tag == Tags.Tags.LeaveRoomRequest)
 			{
-				roomManager.LeaveRoom(sender, eventMessage);
+				roomManager.LeaveRoom(eventMessage);
+			}
+			else if(eventMessage.Tag == Tags.Tags.StartGameRequest)
+            {
+				gameManager.StartGame(eventMessage);
 			}
 		}
 	}

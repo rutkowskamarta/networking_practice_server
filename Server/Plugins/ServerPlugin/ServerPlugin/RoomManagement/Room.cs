@@ -1,7 +1,6 @@
 ﻿using DarkRift;
 using DarkRift.Server;
 using ServerPlugin.PlayerManagement;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,27 +10,27 @@ namespace ServerPlugin.RoomManagement
 	{
 		public string ID { get; private set; }
 
-		private Dictionary<IClient, Player> players;
+		public Dictionary<IClient, Player> Players { get; private set; }
 
 		public Room(string roomID)
 		{
-			this.ID = roomID;
-			players = new Dictionary<IClient, Player>();
+			ID = roomID;
+			Players = new Dictionary<IClient, Player>();
 		}
 
 		public void JoinRoom(IClient client, Player player)
 		{
-			if (!players.ContainsKey(client))
+			if (!Players.ContainsKey(client))
 			{
-				players.Add(client, player);
+				Players.Add(client, player);
 			}
-			UpdateRoomStateNotification(Tags.Tags.UpdateRoomState);
+			UpdateRoomStateNotification(Tags.Tags.UpdateRoomStateNotification);
 		}
 
 		public void LeaveRoom(IClient client)
 		{
-			players.Remove(client);
-			UpdateRoomStateNotification(Tags.Tags.UpdateRoomState);
+			Players.Remove(client);
+			UpdateRoomStateNotification(Tags.Tags.UpdateRoomStateNotification);
 		}
 
 		public void SendRoomCreationNotification()
@@ -41,16 +40,16 @@ namespace ServerPlugin.RoomManagement
 
 		private void UpdateRoomStateNotification(ushort tag)
 		{
-			using (DarkRiftWriter playerWriter = DarkRiftWriter.Create())
+			using (DarkRiftWriter writer = DarkRiftWriter.Create())
 			{
-				playerWriter.Write(ID);
-				playerWriter.Write(players.Values.ToArray());
+				writer.Write(ID);
+				writer.Write(Players.Values.ToArray());
 
-				foreach (var kvp in players)
+				foreach (var kvp in Players)
 				{
-					using (Message playerMessage = Message.Create(tag, playerWriter))
+					using (Message message = Message.Create(tag, writer))
 					{
-						kvp.Key.SendMessage(playerMessage, SendMode.Reliable);
+						kvp.Key.SendMessage(message, SendMode.Reliable);
 					}
 				}
 			}
@@ -58,7 +57,7 @@ namespace ServerPlugin.RoomManagement
 
 		public bool IsEmpty()
 		{
-			return players.Count == 0;
+			return Players.Count == 0;
 		}
 	}
 }

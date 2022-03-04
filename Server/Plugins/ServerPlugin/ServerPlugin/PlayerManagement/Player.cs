@@ -15,16 +15,16 @@ namespace ServerPlugin.PlayerManagement
 
 		public Player(int playerId, string playerName, PlayerVisualisation playerVisualisation)
 		{
-			this.PlayerId = playerId;
-			this.PlayerName = playerName;
-			this.PlayerVisualisation = playerVisualisation;
+			PlayerId = playerId;
+			PlayerName = playerName;
+			PlayerVisualisation = playerVisualisation;
 		}
 
 		public void SetData(int playerId, string playerName, PlayerVisualisation playerVisualisation)
 		{
-			this.PlayerId = playerId;
-			this.PlayerName = playerName;
-			this.PlayerVisualisation = playerVisualisation;
+			PlayerId = playerId;
+			PlayerName = playerName;
+			PlayerVisualisation = playerVisualisation;
 		}
 
 		public void Deserialize(DeserializeEvent deserializeEvent)
