@@ -22,6 +22,7 @@ namespace ServerPlugin
 			roomManager = new RoomManager(pluginLoadData);
 			roomManager.InjectDependecies(playerManager);
 			gameManager = new GameManager(pluginLoadData);
+			gameManager.InjectDependecies(roomManager);
 
 			ClientManager.ClientConnected += OnClientConnected;
 			ClientManager.ClientDisconnected += OnClientDisonnected;
