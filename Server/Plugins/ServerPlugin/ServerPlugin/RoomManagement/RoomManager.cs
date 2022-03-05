@@ -99,7 +99,7 @@ namespace ServerPlugin.RoomManagement
 
 		public void RemoveRoom(Room room)
 		{
-			createdRooms.Add(room.ID, room);
+			createdRooms.Remove(room.ID);
 		}
 
 		public Room GetRoomOfID(string id)

@@ -1,6 +1,7 @@
 ﻿using DarkRift;
 using DarkRift.Server;
 using ServerPlugin.PlayerManagement;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -40,13 +41,22 @@ namespace ServerPlugin.RoomManagement
 
 		private void UpdateRoomStateNotification(ushort tag)
 		{
-			using (DarkRiftWriter writer = DarkRiftWriter.Create())
+			if(IsEmpty())
 			{
-				writer.Write(ID);
-				writer.Write(Players.Values.ToArray());
+				return;
+			}
 
-				foreach (var kvp in Players)
+			var firstPlayer = Players.First();
+
+			foreach (var kvp in Players)
+			{
+				using (DarkRiftWriter writer = DarkRiftWriter.Create())
 				{
+					bool isAdministrator = firstPlayer.Value == kvp.Value;
+					writer.Write(isAdministrator);
+					writer.Write(ID);
+					writer.Write(Players.Values.ToArray());
+
 					using (Message message = Message.Create(tag, writer))
 					{
 						kvp.Key.SendMessage(message, SendMode.Reliable);
