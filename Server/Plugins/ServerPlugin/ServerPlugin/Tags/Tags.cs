@@ -29,7 +29,8 @@
         public static readonly ushort GameStartedResponseSucess = 105;
         public static readonly ushort GameStartedResponseFail = 106;
 
-        public static readonly ushort GameCategoryUpdateNotification = 107;
+        public static readonly ushort GameCategoryAddedNotification = 107;
+        public static readonly ushort GameCategoryRemovedNotification = 108;
 
     }
 }

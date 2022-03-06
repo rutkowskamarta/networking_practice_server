@@ -64,6 +64,14 @@ namespace ServerPlugin
             {
 				gameManager.StartGame(eventMessage);
 			}
+			else if (eventMessage.Tag == Tags.Tags.AddCategoryRequest)
+			{
+				gameManager.AddGameCategory(eventMessage);
+			}
+			else if (eventMessage.Tag == Tags.Tags.RemoveCategoryRequest)
+			{
+				gameManager.RemoveGameCategory(eventMessage);
+			}
 		}
 	}
 }

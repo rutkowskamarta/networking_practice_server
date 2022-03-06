@@ -27,21 +27,21 @@ namespace ServerPlugin.GameManagement
         public void AddCategory(string category)
         {
             Categories.Add(category);
-            SendCategoryUpdateStateNotification();
+            SendCategoryUpdateStateNotification(Tags.Tags.GameCategoryAddedNotification, category);
         }
 
         public void RemoveCetegory(string category)
         {
             Categories.Remove(category);
-            SendCategoryUpdateStateNotification();
+            SendCategoryUpdateStateNotification(Tags.Tags.GameCategoryRemovedNotification, category);
         }
 
-        public void SendCategoryUpdateStateNotification()
+        public void SendCategoryUpdateStateNotification(ushort tag, string category)
         {
             using (DarkRiftWriter writer = DarkRiftWriter.Create())
             {
-                writer.Write(Categories.ToArray());
-                SendMessageToAllPlayers(Tags.Tags.GameCategoryUpdateNotification, writer);
+                writer.Write(category);
+                SendMessageToAllPlayers(tag, writer);
             }
         }
 

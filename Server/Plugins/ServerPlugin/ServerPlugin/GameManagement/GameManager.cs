@@ -46,6 +46,8 @@ namespace ServerPlugin.GameManagement
 
 				var game = GetGameOfRoomID(roomID);
 				game.AddCategory(category);
+
+				Logger.Log($"Category of name {category} added to room {roomID}", LogType.Info);
 			}
 		}
 
@@ -58,6 +60,8 @@ namespace ServerPlugin.GameManagement
 
 				var game = GetGameOfRoomID(roomID);
 				game.RemoveCetegory(category);
+
+				Logger.Log($"Category of name {category} removed from room {roomID}", LogType.Info);
 			}
 		}
 
