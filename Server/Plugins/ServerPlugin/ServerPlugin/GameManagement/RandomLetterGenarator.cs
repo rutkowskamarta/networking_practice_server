@@ -4,12 +4,12 @@ namespace ServerPlugin.GameManagement
 {
 	public static class RandomLetterGenarator
 	{
-		private const string supportedLetters = "abcdefghijklmnoprstuwz";
+		public const string SupportedLetters = "abcdefghijklmnoprstuwz";
 		private static Random random = new Random();
 
 		public static char GetRandomLetter()
 		{
-			return supportedLetters[random.Next(0, supportedLetters.Length)];
+			return SupportedLetters[random.Next(0, SupportedLetters.Length)];
 		}
 	}
 }

@@ -1,59 +1,111 @@
 ﻿using DarkRift;
+using DarkRift.Server;
 using ServerPlugin.RoomManagement;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ServerPlugin.GameManagement
 {
-    public class Game
-    {
-        public GameState GameState { get; private set; }
-        public List<string> Categories { get; private set; } = new List<string>();
+	public class Game
+	{
+		public const int DefaultRoundsNumber = 3;
 
-        private Room room;
+		public GameState GameState { get; private set; }
+		public List<string> Categories { get; private set; } = new List<string>();
 
-        public Game(Room room)
-        {
-            this.room = room;
-        }
+		private Room room;
+		private int rounds;
 
-        public void SendGameStartedNotification()
-        {
-            using (DarkRiftWriter writer = DarkRiftWriter.Create())
-            {
-                SendMessageToAllPlayers(Tags.Tags.GameStartedResponseSucess, writer);
-            }
-        }
+		public Game(Room room)
+		{
+			this.room = room;
+			rounds = DefaultRoundsNumber;
+		}
 
-        public void AddCategory(string category)
-        {
-            Categories.Add(category);
-            SendCategoryUpdateStateNotification(Tags.Tags.GameCategoryAddedNotification, category);
-        }
+		public void SendGameStartedNotification()
+		{
+			using (DarkRiftWriter writer = DarkRiftWriter.Create())
+			{
+				writer.Write(rounds);
+				SendMessageToAllPlayers(Tags.Tags.GameStartedResponseSucess, writer);
+			}
+		}
 
-        public void RemoveCetegory(string category)
-        {
-            Categories.Remove(category);
-            SendCategoryUpdateStateNotification(Tags.Tags.GameCategoryRemovedNotification, category);
-        }
+		public void AddCategory(string category)
+		{
+			Categories.Add(category);
+			SendCategoryUpdateStateNotification(Tags.Tags.GameCategoryAddedNotification, category);
+		}
 
-        public void SendCategoryUpdateStateNotification(ushort tag, string category)
-        {
-            using (DarkRiftWriter writer = DarkRiftWriter.Create())
-            {
-                writer.Write(category);
-                SendMessageToAllPlayers(tag, writer);
-            }
-        }
+		public void RemoveCetegory(string category)
+		{
+			Categories.Remove(category);
+			SendCategoryUpdateStateNotification(Tags.Tags.GameCategoryRemovedNotification, category);
+		}
 
-        private void SendMessageToAllPlayers(ushort tag, DarkRiftWriter writer)
-        {
-            foreach (var kvp in room.Players)
-            {
-                using (Message message = Message.Create(tag, writer))
-                {
-                    kvp.Key.SendMessage(message, SendMode.Reliable);
-                }
-            }
-        }
-    }
+		public void ModifiyRoundsNumber(int rounds)
+		{
+			this.rounds = rounds;
+			using (DarkRiftWriter writer = DarkRiftWriter.Create())
+			{
+				writer.Write(rounds);
+				SendMessageToAllPlayers(Tags.Tags.RoundsModifiedResponse, writer);
+			}
+		}
+
+		public void ReadyUpPlayer(IClient client)
+		{
+			room.Players[client].SetPlayerReadyState(true);
+			HandlePlayerReadyStateChanged();
+		}
+
+		public void UnreadyPlayer(IClient client)
+		{
+			room.Players[client].SetPlayerReadyState(false);
+			HandlePlayerReadyStateChanged();
+		}
+
+		public void SendCategoryUpdateStateNotification(ushort tag, string category)
+		{
+			using (DarkRiftWriter writer = DarkRiftWriter.Create())
+			{
+				writer.Write(category);
+				SendMessageToAllPlayers(tag, writer);
+			}
+		}
+
+		private void SendMessageToAllPlayers(ushort tag, DarkRiftWriter writer)
+		{
+			foreach (var kvp in room.Players)
+			{
+				using (Message message = Message.Create(tag, writer))
+				{
+					kvp.Key.SendMessage(message, SendMode.Reliable);
+				}
+			}
+		}
+
+		private void HandlePlayerReadyStateChanged()
+		{
+			int readyPlayersNumber = room.Players.Where(player => player.Value.IsPlayerReady).Count();
+
+			using (DarkRiftWriter writer = DarkRiftWriter.Create())
+			{
+				writer.Write(readyPlayersNumber);
+				SendMessageToAllPlayers(Tags.Tags.ReadyStateChangedResponse, writer);
+			}
+			HandleAllPlayersReady(readyPlayersNumber);
+		}
+
+		private void HandleAllPlayersReady(int readyPlayers)
+		{
+			if (readyPlayers == room.GetPlayersCount())
+			{
+				using (DarkRiftWriter writer = DarkRiftWriter.Create())
+				{
+					SendMessageToAllPlayers(Tags.Tags.EveryoneReadyNotification, writer);
+				}
+			}
+		}
+	}
 }

@@ -38,7 +38,7 @@ namespace ServerPlugin.GameManagement
 		}
 
 		public void AddGameCategory(MessageReceivedEventArgs messageEvent)
-        {
+		{
 			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
 			{
 				string roomID = reader.ReadString();
@@ -52,7 +52,7 @@ namespace ServerPlugin.GameManagement
 		}
 
 		public void RemoveGameCategory(MessageReceivedEventArgs messageEvent)
-        {
+		{
 			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
 			{
 				string roomID = reader.ReadString();
@@ -62,6 +62,46 @@ namespace ServerPlugin.GameManagement
 				game.RemoveCetegory(category);
 
 				Logger.Log($"Category of name {category} removed from room {roomID}", LogType.Info);
+			}
+		}
+
+		public void ModifyRounds(MessageReceivedEventArgs messageEvent)
+		{
+			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
+			{
+				string roomID = reader.ReadString();
+				int rounds = reader.ReadInt32();
+
+				var game = GetGameOfRoomID(roomID);
+				game.ModifiyRoundsNumber(rounds);
+
+				Logger.Log($"Rounds changed to {rounds} for room {roomID}", LogType.Info);
+			}
+		}
+
+		public void PlayerReadyUp(MessageReceivedEventArgs messageEvent)
+		{
+			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
+			{
+				string roomID = reader.ReadString();
+
+				var game = GetGameOfRoomID(roomID);
+				game.ReadyUpPlayer(messageEvent.Client);
+
+				Logger.Log($"Player ready up for room {roomID}", LogType.Info);
+			}
+		}
+
+		public void PlayerUnready(MessageReceivedEventArgs messageEvent)
+		{
+			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
+			{
+				string roomID = reader.ReadString();
+
+				var game = GetGameOfRoomID(roomID);
+				game.UnreadyPlayer(messageEvent.Client);
+
+				Logger.Log($"Player unready for room {roomID}", LogType.Info);
 			}
 		}
 

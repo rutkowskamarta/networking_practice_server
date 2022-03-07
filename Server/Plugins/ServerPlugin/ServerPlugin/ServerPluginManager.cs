@@ -42,6 +42,8 @@ namespace ServerPlugin
 
 		private void Client_MessageReceived(object sender, MessageReceivedEventArgs eventMessage)
 		{
+			//group those, if tag between 100-150 this, etc
+
 			Logger.Log(eventMessage.GetMessage().ToString(), DarkRift.LogType.Info);
 
 			if (eventMessage.Tag == Tags.Tags.PlayerDataRequest)
@@ -71,6 +73,18 @@ namespace ServerPlugin
 			else if (eventMessage.Tag == Tags.Tags.RemoveCategoryRequest)
 			{
 				gameManager.RemoveGameCategory(eventMessage);
+			}
+			else if(eventMessage.Tag == Tags.Tags.SetRoundsNumberRequest)
+			{
+				gameManager.ModifyRounds(eventMessage);
+			}
+			else if (eventMessage.Tag == Tags.Tags.PlayerReadyRequest)
+			{
+				gameManager.PlayerReadyUp(eventMessage);
+			}
+			else if (eventMessage.Tag == Tags.Tags.PlayerUnreadyRequest)
+			{
+				gameManager.PlayerUnready(eventMessage);
 			}
 		}
 	}

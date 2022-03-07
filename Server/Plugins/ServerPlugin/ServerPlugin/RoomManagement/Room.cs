@@ -69,5 +69,10 @@ namespace ServerPlugin.RoomManagement
 		{
 			return Players.Count == 0;
 		}
+
+		public int GetPlayersCount()
+		{
+			return Players.Count;
+		}
 	}
 }

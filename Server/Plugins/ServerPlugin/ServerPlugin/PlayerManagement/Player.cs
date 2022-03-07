@@ -8,6 +8,8 @@ namespace ServerPlugin.PlayerManagement
 		public string PlayerName { get; private set; }
 		public PlayerVisualisation PlayerVisualisation { get; private set; }
 
+		public bool IsPlayerReady { get; private set; }
+
 		public Player()
 		{
 
@@ -39,6 +41,11 @@ namespace ServerPlugin.PlayerManagement
 			serializeEvent.Writer.Write(PlayerId);
 			serializeEvent.Writer.Write(PlayerName);
 			serializeEvent.Writer.Write(PlayerVisualisation);
+		}
+
+		public void SetPlayerReadyState(bool isReady)
+		{
+			IsPlayerReady = isReady;
 		}
 	}
 }

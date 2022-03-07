@@ -14,9 +14,8 @@
         public static readonly ushort RemoveCategoryRequest = 6;
         public static readonly ushort SetRoundsNumberRequest = 7;
         public static readonly ushort PlayerReadyRequest = 8;
-        public static readonly ushort ContinueToGameRequest = 9;
-        public static readonly ushort StopTheGameRequest = 10;
-        public static readonly ushort SubmitTheAnswersRequest = 11;
+        public static readonly ushort PlayerUnreadyRequest = 9;
+
 
         //response tags
         public static readonly ushort CreateRoomResponseSucess = 100;
@@ -31,6 +30,11 @@
 
         public static readonly ushort GameCategoryAddedNotification = 107;
         public static readonly ushort GameCategoryRemovedNotification = 108;
+
+        public static readonly ushort RoundsModifiedResponse = 109;
+        public static readonly ushort EveryoneReadyNotification = 110;
+
+        public static readonly ushort ReadyStateChangedResponse = 111;
 
     }
 }
