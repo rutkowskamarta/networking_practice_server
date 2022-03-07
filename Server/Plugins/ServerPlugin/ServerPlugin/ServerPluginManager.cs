@@ -86,6 +86,10 @@ namespace ServerPlugin
 			{
 				gameManager.PlayerUnready(eventMessage);
 			}
+			else if (eventMessage.Tag == Tags.Tags.GenerateLetterRequest)
+			{
+				gameManager.GenerateLetter(eventMessage);
+			}
 		}
 	}
 }

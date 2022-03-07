@@ -43,10 +43,8 @@ namespace ServerPlugin.GameManagement
 			{
 				string roomID = reader.ReadString();
 				string category = reader.ReadString();
-
 				var game = GetGameOfRoomID(roomID);
 				game.AddCategory(category);
-
 				Logger.Log($"Category of name {category} added to room {roomID}", LogType.Info);
 			}
 		}
@@ -57,10 +55,8 @@ namespace ServerPlugin.GameManagement
 			{
 				string roomID = reader.ReadString();
 				string category = reader.ReadString();
-
 				var game = GetGameOfRoomID(roomID);
 				game.RemoveCetegory(category);
-
 				Logger.Log($"Category of name {category} removed from room {roomID}", LogType.Info);
 			}
 		}
@@ -71,10 +67,8 @@ namespace ServerPlugin.GameManagement
 			{
 				string roomID = reader.ReadString();
 				int rounds = reader.ReadInt32();
-
 				var game = GetGameOfRoomID(roomID);
 				game.ModifiyRoundsNumber(rounds);
-
 				Logger.Log($"Rounds changed to {rounds} for room {roomID}", LogType.Info);
 			}
 		}
@@ -84,10 +78,8 @@ namespace ServerPlugin.GameManagement
 			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
 			{
 				string roomID = reader.ReadString();
-
 				var game = GetGameOfRoomID(roomID);
 				game.ReadyUpPlayer(messageEvent.Client);
-
 				Logger.Log($"Player ready up for room {roomID}", LogType.Info);
 			}
 		}
@@ -97,11 +89,20 @@ namespace ServerPlugin.GameManagement
 			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
 			{
 				string roomID = reader.ReadString();
-
 				var game = GetGameOfRoomID(roomID);
 				game.UnreadyPlayer(messageEvent.Client);
-
 				Logger.Log($"Player unready for room {roomID}", LogType.Info);
+			}
+		}
+
+		public void GenerateLetter(MessageReceivedEventArgs messageEvent)
+		{
+			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
+			{
+				string roomID = reader.ReadString();
+				var game = GetGameOfRoomID(roomID);
+				game.GenerateRandomLetter();
+				Logger.Log($"Generates letter for room {roomID}", LogType.Info);
 			}
 		}
 

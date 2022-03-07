@@ -15,11 +15,13 @@ namespace ServerPlugin.GameManagement
 
 		private Room room;
 		private int rounds;
+		private List<char> usedLetters;
 
 		public Game(Room room)
 		{
 			this.room = room;
 			rounds = DefaultRoundsNumber;
+			usedLetters = new List<char>();
 		}
 
 		public void SendGameStartedNotification()
@@ -71,6 +73,17 @@ namespace ServerPlugin.GameManagement
 			{
 				writer.Write(category);
 				SendMessageToAllPlayers(tag, writer);
+			}
+		}
+
+		public void GenerateRandomLetter()
+		{
+			using (DarkRiftWriter writer = DarkRiftWriter.Create())
+			{
+				char randomLetter = RandomLetterGenarator.GetRandomLetter(usedLetters);
+				usedLetters.Add(randomLetter);
+				writer.Write(randomLetter);
+				SendMessageToAllPlayers(Tags.Tags.LetterGeneratedResponse, writer);
 			}
 		}
 

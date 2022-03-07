@@ -15,6 +15,7 @@
         public static readonly ushort SetRoundsNumberRequest = 7;
         public static readonly ushort PlayerReadyRequest = 8;
         public static readonly ushort PlayerUnreadyRequest = 9;
+        public static readonly ushort GenerateLetterRequest = 10;
 
 
         //response tags
@@ -35,6 +36,7 @@
         public static readonly ushort EveryoneReadyNotification = 110;
 
         public static readonly ushort ReadyStateChangedResponse = 111;
+        public static readonly ushort LetterGeneratedResponse = 112;
 
     }
 }
